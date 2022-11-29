@@ -19,7 +19,7 @@ public class WebSecurityConfigurationInMemory {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
-        httpSecurity.authorizeHttpRequests().
+        httpSecurity.authorizeRequests().
                 antMatchers(HttpMethod.POST,"/departments/","/departments").hasRole("HOS")
                 .antMatchers(HttpMethod.DELETE,"/departments/{id}","/departments/{id}/").hasRole("HOS")
                 .antMatchers(HttpMethod.PATCH,"offices/{id}/move","offices/{id}/move/").hasRole("HOS")

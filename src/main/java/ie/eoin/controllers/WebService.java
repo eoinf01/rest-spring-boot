@@ -22,6 +22,10 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Optional;
 
+/*
+Student: Eoin Fehily
+Student Number: R00191977
+ */
 @RestController
 public class WebService {
 
@@ -132,8 +136,13 @@ public class WebService {
             }
             Optional<Department> departmentOptional = departmentRepo.findById(office.departmentId());
             if(departmentOptional.isPresent()){
-                Office newOffice = new Office(office.maxOccupancy(), office.currentOccupancy(),departmentOptional.get());
-                return officeDTOMapper.toModel(officeRepo.save(newOffice));
+                if(!(office.currentOccupancy() > office.maxOccupancy())){
+                    Office newOffice = new Office(office.maxOccupancy(), office.currentOccupancy(),departmentOptional.get());
+                    return officeDTOMapper.toModel(officeRepo.save(newOffice));
+                }
+                else{
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Office current occupancy is greater than max occupancy.");
+                }
             }
             else{
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Department with ID " + office.departmentId() + " not found.");
@@ -188,7 +197,7 @@ public class WebService {
     Move office to new department
     Sample URL: http://localhost:8080/offices/2/move
     {
-        "newDepartmentId": "2"
+        "newDepartmentId": 2
     }
      */
     @PatchMapping("offices/{id}/move")

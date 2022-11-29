@@ -1,7 +1,9 @@
 package ie.eoin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ie.eoin.controllers.records.NewOffice;
 import ie.eoin.entities.Department;
+import ie.eoin.entities.Office;
 import lombok.SneakyThrows;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.MethodOrderer;
@@ -20,6 +22,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+
+/*
+Student: Eoin Fehily
+Student Number: R00191977
+ */
 
 @ActiveProfiles("test")
 @SpringBootTest("ie.eoin")
@@ -125,9 +133,22 @@ class WebServiceTests {
 	@WithMockUser( roles = "HOS")
 	@Order(9)
 	void createDepartmentBadJSON(){
-		String departmentJson = new Department("","").toString();
+		String departmentJson = new ObjectMapper().writeValueAsString(new Department("",""));
 		mockMvc.perform(MockMvcRequestBuilders.post("/departments/")
 				.content(departmentJson)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+		).andExpect(status().isBadRequest());
+	}
+
+	@Test
+	@SneakyThrows
+	@WithMockUser( roles = "HOS")
+	@Order(9)
+	void createOfficeBadOccupancy(){
+		String officeJson = new ObjectMapper().writeValueAsString(new NewOffice(2000,3000,1));
+		mockMvc.perform(MockMvcRequestBuilders.post("/offices/")
+				.content(officeJson)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
 		).andExpect(status().isBadRequest());
