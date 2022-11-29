@@ -3,6 +3,7 @@ package ie.eoin.aspects;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -10,6 +11,7 @@ import java.util.Arrays;
 @Aspect
 @Component
 @Slf4j
+@Profile("dev")
 public class ControllerAspect {
 
     @Pointcut("execution(* ie.eoin.controllers.WebService.*(..))")
@@ -24,6 +26,6 @@ public class ControllerAspect {
 
     @AfterReturning(pointcut = "webServiceMethods()",returning = "returnValue")
     public void theAfterAction(JoinPoint joinPoint, Object returnValue){
-        log.info(joinPoint.getSignature().toShortString() + " method returned Object of type" + returnValue.getClass());
+        log.info(joinPoint.getSignature().toShortString() + " return value " + returnValue);
     }
 }

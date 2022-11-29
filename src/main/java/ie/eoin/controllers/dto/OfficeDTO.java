@@ -1,7 +1,6 @@
 package ie.eoin.controllers.dto;
 
 
-import ie.eoin.entities.Department;
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
@@ -12,7 +11,7 @@ import org.springframework.hateoas.server.core.Relation;
 @AllArgsConstructor
 @Builder
 @Relation(collectionRelation = "offices",itemRelation = "office")
-public class officeDTO extends RepresentationModel<officeDTO> {
+public class OfficeDTO extends RepresentationModel<OfficeDTO> {
     private int officeNumber;
     private int maxOccupancy;
     private int currentOccupancy;

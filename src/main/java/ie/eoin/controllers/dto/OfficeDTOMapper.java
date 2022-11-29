@@ -11,21 +11,21 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class officeDTOMapper extends RepresentationModelAssemblerSupport<Office,officeDTO> {
-    public officeDTOMapper() {
-        super(WebService.class, officeDTO.class);
+public class OfficeDTOMapper extends RepresentationModelAssemblerSupport<Office, OfficeDTO> {
+    public OfficeDTOMapper() {
+        super(WebService.class, OfficeDTO.class);
     }
 
     @Override
-    public officeDTO toModel(Office entity) {
-        officeDTO officeDTO = new officeDTO(entity.getOfficeNumber(),entity.getMaxOccupancy(),entity.getCurrentOccupancy(),entity.getDepartment().getDepartmentName());
+    public OfficeDTO toModel(Office entity) {
+        OfficeDTO officeDTO = new OfficeDTO(entity.getOfficeNumber(),entity.getMaxOccupancy(),entity.getCurrentOccupancy(),entity.getDepartment().getDepartmentName());
         officeDTO.add(linkTo(methodOn(WebService.class).getOfficeById(entity.getOfficeNumber())).withSelfRel());
         officeDTO.add(linkTo(methodOn(WebService.class).getDepartmentById(entity.getDepartment().getDepartmentId())).withRel("department"));
         return officeDTO;
     }
 
     @Override
-    public CollectionModel<officeDTO> toCollectionModel(Iterable<? extends Office> entities){
+    public CollectionModel<OfficeDTO> toCollectionModel(Iterable<? extends Office> entities){
         return super.toCollectionModel(entities).add(linkTo(methodOn(WebService.class).getAll()).withSelfRel()).add(linkTo(methodOn(WebService.class).findAllEmptyOffices()).withRel("empty")).add(linkTo(methodOn(WebService.class).findAllOfficesWithSpace()).withRel("spaces"));
     }
 

@@ -5,23 +5,22 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
-public interface officeRepo extends JpaRepository<Office,Integer> {
+@Repository
+public interface OfficeRepo extends JpaRepository<Office,Integer> {
 
     List<Office> findAllByDepartment_DepartmentId(int id);
 
 
-    @Query(value = "select * from Office o where o.current_occupancy = 0",nativeQuery = true)
+    @Query(value = "select o from Office o where o.currentOccupancy = 0")
     List<Office> findEmptyOffices();
 
-    @Query(value = "select * from Office o where o.current_occupancy < o.max_occupancy",nativeQuery = true)
+    @Query(value = "select o from Office o where o.currentOccupancy < o.maxOccupancy")
      List<Office> findOfficesWithSpace();
-
-    @Query(value = "select * from Office o where o.department_department_id = :departmentNumber",nativeQuery = true)
-    List<Office> findOfficesByDepartmentId(@Param("departmentNumber") int id);
 
     @Modifying
     @Transactional

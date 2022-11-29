@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest("ie.eoin")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureMockMvc
-class JpaApplicationTests {
+class WebServiceTests {
 
 	@Autowired
 	MockMvc mockMvc;
@@ -37,7 +37,7 @@ class JpaApplicationTests {
 		mockMvc.perform(
 				MockMvcRequestBuilders.get("/offices/"))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("_embedded.offices", Matchers.hasSize(1)));
+				.andExpect(jsonPath("_embedded.offices", Matchers.hasSize(2)));
 	}
 
 	@Test
@@ -57,7 +57,7 @@ class JpaApplicationTests {
 	@Order(3)
 	void deleteOfficeNotExist(){
 		mockMvc.perform(
-				MockMvcRequestBuilders.delete("/offices/{id}",1))
+				MockMvcRequestBuilders.delete("/offices/{id}",55))
 				.andExpect(status().isNotFound());
 	}
 
